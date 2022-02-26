@@ -9,19 +9,19 @@ public class Question {
         this.mAnswerTrue = mAnswerTrue;
     }
 
-    public int getmTextResId() {
+    public int getTextResId() {
         return mTextResId;
     }
 
-    public void setmTextResId(int mTextResId) {
+    public void setTextResId(int mTextResId) {
         this.mTextResId = mTextResId;
     }
 
-    public boolean ismAnswerTrue() {
+    public boolean isAnswerTrue() {
         return mAnswerTrue;
     }
 
-    public void setmAnswerTrue(boolean mAnswerTrue) {
+    public void setAnswerTrue(boolean mAnswerTrue) {
         this.mAnswerTrue = mAnswerTrue;
     }
 }
