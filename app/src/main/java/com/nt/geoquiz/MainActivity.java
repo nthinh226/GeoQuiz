@@ -2,9 +2,11 @@ package com.nt.geoquiz;
 
 import static java.lang.Math.abs;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "QuizActivity";
+    private static final String KEY_INDEX = "index";
     private Button mTrueButton;
     private Button mFalseButton;
     private TextView mQuestionTextView;
@@ -35,9 +38,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate(Bundle) called");
         setContentView(R.layout.activity_main);
 
+        if(savedInstanceState!=null){
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX,0);
+        }
         mQuestionTextView = findViewById(R.id.question_text_view);
-        updateQuestion();
-
 
         mTrueButton = findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 updateQuestion();
             }
         });
-
+        updateQuestion();
         mQuestionTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateQuestion() {
+        mFalseButton.setEnabled(true);
+        mTrueButton.setEnabled(true);
         int question = mQuestionBank[mCurrentIndex].getTextResId();
         mQuestionTextView.setText(question);
     }
@@ -94,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             messageResId = R.string.false_button;
         }
+        mFalseButton.setEnabled(false);
+        mTrueButton.setEnabled(false);
+
         Toast.makeText(MainActivity.this, messageResId, Toast.LENGTH_SHORT).show();
 
     }
@@ -115,6 +124,14 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         Log.d(TAG, "onPause() called");
     }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG,"onSaveInstanceState");
+        outState.putInt(KEY_INDEX,mCurrentIndex);
+    }
+
 
     @Override
     public void onStop() {
